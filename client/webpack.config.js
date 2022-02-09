@@ -3,14 +3,13 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-// need to still add the manifest
-
+//exports
 module.exports = () => {
   return {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js',
+      install: './src/js/install.js'
     },
     output: {
       filename: '[name].bundle.js',
@@ -19,7 +18,7 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'J.A.T.E Editor',
+        title: 'J.A.T.E.'
       }),
       new InjectManifest({
         swSrc: './src-sw.js',
@@ -28,26 +27,26 @@ module.exports = () => {
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
-        name: 'JATE Editor',
-        short_name: 'J.A.T.E',
-        description: 'A text editor',
+        name: 'J.A.T.E.',
+        short_name: 'J.A.T.E.',
+        description: 'Just Another Text Editor',
         background_color: '#225ca3',
         theme_color: '#225ca3',
         start_url: '/',
         publicPath: '/',
+        orientation: 'portrait',
+        display: 'standalone',
+        crossorigin: 'use-credentials',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
-        ],
+        ]
       }),
     ],
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'),
-    },
+
     module: {
       rules: [
         {
@@ -57,7 +56,6 @@ module.exports = () => {
         {
           test: /\.m?js$/,
           exclude: /node_modules/,
-          // We use babel-loader in order to use ES6.
           use: {
             loader: 'babel-loader',
             options: {
@@ -66,11 +64,8 @@ module.exports = () => {
             },
           },
         },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
-        },
       ],
     },
+    
   };
 };
